@@ -1,0 +1,9 @@
+Client/Library/
+Client/obj/
+Client/Assembly-CSharp.csproj
+Client/Assembly-CSharp-Editor.csproj
+Client/Client.sln
+Client/Temp/
+Client/.vs/
+Client/Logs/
+Client/UserSettings/
