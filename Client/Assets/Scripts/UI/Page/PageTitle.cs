@@ -60,7 +60,7 @@ public class PageTitle : PageView {
         BGAnimator.SetBool(Defines.ANI_GAME_START, true);
         SoundManager.Instance.PlaySE(Defines.SE_START);
         
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.65f);
 
         BackgroundTiles.PlayAnimation();
 
