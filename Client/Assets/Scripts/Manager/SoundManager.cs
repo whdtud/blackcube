@@ -45,6 +45,11 @@ public class SoundManager : MonoBehaviour
         mBGM.Play();
     }
 
+    public void PauseBGM()
+    {
+        mBGM.Pause();
+    }
+
     public void PlaySE(string name)
     {
         var clip = ResourceManager.Instance.LoadData<AudioClip>("Sound/Effect/", name);

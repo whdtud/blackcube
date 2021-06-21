@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 using System.Collections;
 
@@ -20,6 +19,7 @@ public class PageTitle : PageView {
     public override void OnPreEnable()
     {
         BackgroundTiles.Reset();
+        SoundManager.Instance.PlayBGM("Title");
     }
 
     public override void OnPostEnable()
@@ -57,16 +57,23 @@ public class PageTitle : PageView {
     {
         PageSystem.Instance.SetIgnoreTouch(true);
 
-        BGAnimator.SetBool("Start", true);
-
+        BGAnimator.SetBool(Defines.ANI_GAME_START, true);
+        SoundManager.Instance.PlaySE(Defines.SE_START);
+        
         yield return new WaitForSeconds(1.5f);
 
         BackgroundTiles.PlayAnimation();
 
+        yield return new WaitForSeconds(0.05f);
+
+        SoundManager.Instance.PlaySE(Defines.SE_EXPLOSION_2);
+        
         while (BGAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
         {
             yield return null;
         }
+
+        SoundManager.Instance.PauseBGM();
 
         yield return GameController.Instance.Co_StartGame();
     }

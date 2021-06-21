@@ -22,6 +22,7 @@ public static class Defines
 
     public const string ANI_ATTACK_NAME = "Attack";
     public const string ANI_DIE_NAME = "Die";
+    public const string ANI_GAME_START = "Start";
 
     public const string BGM_TITLE = "Title";
     public const string BGM_GAME_PLAY = "GamePlay";

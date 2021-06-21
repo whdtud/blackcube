@@ -21,14 +21,9 @@ public class CameraController : MonoBehaviour {
     void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
         else
-        {
             Destroy(gameObject);
-        }
 
         mTm = transform;
 	}

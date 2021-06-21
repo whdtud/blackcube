@@ -155,7 +155,7 @@ public class GameController : MonoBehaviour
         yield return null;
     }
 
-    public void ReturnToTitle()
+    public IEnumerator Co_ReturnToTitle()
     {
         ChangeState(GameState.TITLE);
         Player.Despawn();

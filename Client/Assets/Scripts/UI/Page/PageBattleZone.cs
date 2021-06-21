@@ -32,6 +32,7 @@ public class PageBattleZone : PageView
     public override void OnPreEnable()
     {
         PauseButton.gameObject.SetActive(true);
+        SoundManager.Instance.PlayBGM("GamePlay");
     }
 
     public override void OnChangePage(UIPageKind pageKind)

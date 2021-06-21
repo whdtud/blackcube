@@ -160,6 +160,6 @@ public class PagePause : PageView
 
     private void OnClickQuitButton()
     {
-        GameController.Instance.ReturnToTitle();
+        StartCoroutine(GameController.Instance.Co_ReturnToTitle());
     }
 }
