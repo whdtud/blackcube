@@ -1,3 +1,4 @@
+using UnityEngine;
 
 public static class Defines
 {
@@ -9,6 +10,8 @@ public static class Defines
     public const string FX_LEVEL_UP = "LevelUp";
     public const string FX_LASER = "Laser";
     public const string FX_BOSS_EXPLOSION = "BossExplosion";
+    public const string FX_TILE_GREEN = "TileGreen";
+    public const string FX_TILE_YELLOW = "TileYellow";
 
     public const string OBJ_BULLET = "Bullet";
     public const string OBJ_BULLET_BASIC = "EnemyBasicBullet";
@@ -45,4 +48,9 @@ public static class Defines
     public const string SE_QUIT = "Quit";
     public const string SE_START = "Start";
     public const string SE_TOUCH = "Touch";
+
+    public static readonly Color TILE_WHITE_BLUE = new Color(0, 0.5f, 1);       // 연파랑
+    public static readonly Color TILE_WHITE_GREEN = new Color(0.4f, 1, 0.2f);   // 연초록
+    public static readonly Color TILE_WHITE_PURPLE = new Color(0.9f, 0, 0.9f);  // 연보라
+    public static readonly Color TILE_PURPLE = new Color(0.8f, 0f, 0.8f);       // 보라
 }

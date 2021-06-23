@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using System.Collections;
 
@@ -53,24 +52,25 @@ public class GameController : MonoBehaviour
                 {
                     GameTime = Mathf.Min(GameTime + Time.deltaTime * STAGE_READY_TIME_SPEED, STAGE_GOAL_TIME);
 
-                    if (GameTime >= STAGE_GOAL_TIME)
+                    if (GameTime < STAGE_GOAL_TIME)
+                        return;
+
+                    ChangeState(GameState.REST);
+
+                    IPageView currentPage = SceneSwitchManager.Instance.GetCurrentPage();
+                    PageBattleZone pageBattleZone = currentPage as PageBattleZone;
+                    pageBattleZone.TimerAnimation(() =>
                     {
-                        ChangeState(GameState.REST);
+                        ChangeState(GameState.PLAY);
 
-                        IPageView currentPage = SceneSwitchManager.Instance.GetCurrentPage();
-                        PageBattleZone pageBattleZone = currentPage as PageBattleZone;
-                        pageBattleZone.TimerAnimation(() => {
-                            ChangeState(GameState.PLAY);
-
-                            Map.ChangeNextMap();
-                            EmFactory.Init();
-                        });
-                    }
+                        Map.ChangeNextMap();
+                        EmFactory.Init();
+                    });
                 }
                 break;
             case GameState.PLAY:
                 {
-                    GameTime -= Time.deltaTime;
+                    GameTime = Mathf.Max(0f, Time.deltaTime);
 
                     SpawnEnemies();
 

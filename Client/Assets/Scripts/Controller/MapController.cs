@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class MapController : MonoBehaviour
 {
     private Dictionary<int, string> mStrMapDic = new Dictionary<int, string>();
-    private TileController[] mTiles;
+    private Tile[] mTiles;
 
     public Transform PlayerSpawnPoint;
     public Vector3 BossSpawnPosition { get; private set; }
@@ -19,23 +19,20 @@ public class MapController : MonoBehaviour
     private const int MAP_SIZE = 10;
     private const int BOSS_SPAWN_INDEX = 44;
 
-    public static readonly Color COLOR_PURPLE = new Color(0.8f, 0f, 0.8f);
-    public static readonly Color COLOR_RED = new Color(0.99f, 0f, 0f);
     public readonly Color[] TILE_COLORS = new Color[] {
         Color.white,
         Color.red,
         Color.yellow,
         Color.blue,
         Color.green,
-        COLOR_PURPLE,
-        COLOR_RED,
+        Defines.TILE_PURPLE,
     };
 
     void Awake()
     {
         GameController.Instance.Map = this;
         
-        mTiles = GetComponentsInChildren<TileController>();
+        mTiles = GetComponentsInChildren<Tile>();
 
         transform.rotation = Quaternion.Euler(Vector3.zero);
 
@@ -66,11 +63,11 @@ public class MapController : MonoBehaviour
         {
             int colorIndex = currentMapData[i] - 48;
 
-            mTiles[i].ChangeTile(TILE_COLORS[colorIndex]);
+            mTiles[i].SetFixedColor(TILE_COLORS[colorIndex]);
         }
     }
 
-    public TileController GetTile(int index)
+    public Tile GetTile(int index)
     {
         if (index < 0 || index >= mTiles.Length)
             return null;
@@ -84,7 +81,7 @@ public class MapController : MonoBehaviour
         int ranZ = UnityEngine.Random.Range(0, 10);
         int index = ranZ * 10 + ranX;
 
-        TileController tile = GetTile(index);
+        Tile tile = GetTile(index);
 
         if (tile == null)
             return Vector3.zero;
@@ -119,8 +116,8 @@ public class MapController : MonoBehaviour
     {
         int IComparer.Compare(object x, object y)
         {
-            TileController xValue = x as TileController;
-            TileController yValue = y as TileController;
+            Tile xValue = x as Tile;
+            Tile yValue = y as Tile;
             int left = (int)(xValue.transform.position.x + xValue.transform.position.z * 10);
             int right = (int)(yValue.transform.position.x + yValue.transform.position.z * 10);
             return left - right;
