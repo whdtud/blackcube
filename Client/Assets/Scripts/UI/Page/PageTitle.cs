@@ -75,6 +75,8 @@ public class PageTitle : PageView {
 
         SoundManager.Instance.PauseBGM();
 
+        yield return null;
+
         yield return GameController.Instance.Co_StartGame();
     }
 }

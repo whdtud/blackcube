@@ -78,9 +78,9 @@ public class CameraController : MonoBehaviour {
         }
 	}
 
-    public void SetTarget()
+    public void SetTarget(Transform tm)
     {
-        mTarget = GameController.Instance.Player.Character.transform;
+        mTarget = tm;
     }
 
     public void Shake()

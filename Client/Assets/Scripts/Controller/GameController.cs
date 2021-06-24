@@ -142,17 +142,15 @@ public class GameController : MonoBehaviour
         yield return null;
 
         ChangeState(GameState.READY);
-        GameTime = 0;
+        GameTime = 0f;
         Stage = 1;
         Boss = null;
 
         Player.Spawn(Map.PlayerSpawnPoint.position);
 
-        CameraController.Instance.SetTarget();
+        CameraController.Instance.SetTarget(Player.Character.Tm);
 
         SceneSwitchManager.Instance.PushPage(UIPageKind.Page_BattleZone, null);
-
-        yield return null;
     }
 
     public void ReturnToTitle()

@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
 
         mFixedColor = Color.white;
         mDestColor = Color.white;
-        mNextChangeColorTime = 0f;
+        mNextChangeColorTime = float.MaxValue;
     }
 
 	void Update ()
