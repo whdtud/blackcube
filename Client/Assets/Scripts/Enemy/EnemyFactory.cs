@@ -13,7 +13,6 @@ public class EnemyFactory : MonoBehaviour
 
     private const int DEFAULT_SPAWN_AMOUNT = 5;
     private const int SPAWN_HEIGHT = 3;
-    private const int SPAWN_BOSS_HEIGHT = 8;
 
     void Awake()
     {
@@ -147,7 +146,6 @@ public class EnemyFactory : MonoBehaviour
     public BossEnemy SpawnBoss(Vector3 position)
     {
         Vector3 spawnPosition = position;
-        spawnPosition.y += SPAWN_BOSS_HEIGHT;
 
         var boss = ResourceManager.Instance.SpawnEnemy(Defines.ENEMY_BOSS_NAME) as BossEnemy;
         boss.Init();

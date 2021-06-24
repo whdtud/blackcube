@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
                     {
                         ChangeState(GameState.PLAY);
 
-                        Map.ChangeNextMap();
+                        Map.SetStage(Stage);
                         EmFactory.Init();
                     });
                 }
@@ -128,7 +128,7 @@ public class GameController : MonoBehaviour
         GameTime = 0;
         ChangeState(GameState.BOSS);
 
-        Boss = EmFactory.SpawnBoss(Map.BossSpawnPosition);
+        Boss = EmFactory.SpawnBoss(Map.BossSpawnPoint.position);
 
         IPageView currentPage = SceneSwitchManager.Instance.GetCurrentPage();
         PageBattleZone pageBattleZone = currentPage as PageBattleZone;
