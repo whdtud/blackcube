@@ -10,16 +10,13 @@ public class PageBattleZone : PageView
     public Slider Hp;
     public Slider HpBG;
     public Slider Xp;
-    public GameObject BossHpObj;
-    public Slider BossHp;
-    public Slider BossHpBG;
     public Text Score;
     public Text ScoreBG;
-    public GameObject GameTimerObj;
-    public Text GameTimer;
-    public Text GameTimerBG;
     public Text Lv;
     public Text LvBG;
+    public UIBattleZoneTop TopArea;
+    public UIGameTimer GameTimer;
+    public UIBossHp BossHp;
 
     public Joystick Joystick;
 
@@ -68,55 +65,6 @@ public class PageBattleZone : PageView
 
         Score.text = tempStr;
         ScoreBG.text = tempStr;
-
-        GameState gameState = GameController.Instance.CurrentState;
-
-        if (gameState == GameState.BOSS)
-        {
-            BossHp.value = GameController.Instance.Boss.HpPercent;
-            BossHpBG.value = Mathf.Lerp(BossHpBG.value, BossHp.value, 0.05f);
-        }
-        else
-        {
-            tempStr = string.Format("{0:00.00}", GameController.Instance.GameTime);
-            GameTimer.text = tempStr;
-            GameTimerBG.text = tempStr;
-        }
-    }
-
-    public void StartBoss()
-    {
-        BossHpObj.SetActive(true);
-        GameTimerObj.SetActive(false);
-    }
-
-    public void EndBoss()
-    {
-        GameTimer.color = Color.green;
-
-        BossHpObj.SetActive(false);
-        GameTimerObj.SetActive(true);
-    }
-
-    public void TimerAnimation(Action callback)
-    {
-        StartCoroutine(Co_TimerAnimation(callback));
-    }
-
-    private IEnumerator Co_TimerAnimation(Action callback)
-    {
-        while (GameTimer.color.r < 0.99f)
-        {
-            float r = Mathf.Lerp(GameTimer.color.r, 1.0f, 0.05f);
-            float g = Mathf.Lerp(GameTimer.color.g, 0, 0.05f);
-            float b = Mathf.Lerp(GameTimer.color.b, 0, 0.05f);
-
-            GameTimer.color = new Vector4(r, g, b, GameTimer.color.a);
-
-            yield return null;
-        }
-
-        callback();
     }
 
     private bool HandleEsc()

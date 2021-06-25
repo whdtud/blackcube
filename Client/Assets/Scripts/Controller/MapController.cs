@@ -1,17 +1,17 @@
 using UnityEngine;
 
-using System;
 using System.Xml;
-using System.Collections;
 using System.Collections.Generic;
 
-public class MapController : MonoBehaviour
+public class MapController : MonoBehaviour, IGameStateListener
 {
     public Tiles mTiles;
     public Transform PlayerSpawnPoint;
     public Transform BossSpawnPoint;
 
     private Dictionary<int, string> mStrMapDic = new Dictionary<int, string>();
+
+    private int mCurrentMapIndex;
 
     private const int MAP_SIZE = 10;
 
@@ -27,17 +27,30 @@ public class MapController : MonoBehaviour
     void Awake()
     {
         GameController.Instance.Map = this;
-        
+        GameController.Instance.GameStateListeners.Add(this);
+
+        mCurrentMapIndex = -1;
+
         LoadMapDataFromXml();
     }
 
-    public void SetStage(int stage)
+    public void OnChangeState(GameState currentState)
     {
-        int mapIndex = stage - 1;
-        if (mapIndex >= mStrMapDic.Count)
-            mapIndex = 0;
+        if (currentState == GameState.PLAY ||
+            currentState == GameState.BOSS)
+        {
+            ChangeNextMap();
+        }
+    }
+
+    private void ChangeNextMap()
+    {
+        mCurrentMapIndex++;
+
+        if (mCurrentMapIndex >= mStrMapDic.Count)
+            mCurrentMapIndex = 0;
         
-        mTiles.ChangeTiles(mStrMapDic[mapIndex]);
+        mTiles.ChangeTiles(mStrMapDic[mCurrentMapIndex]);
     }
 
     public Vector3 GetRandomTilePosition()

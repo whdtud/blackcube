@@ -246,7 +246,7 @@ public class BossEnemy : EnemyBase
     // Call from the animaion clip (Animation event)
     public void DestroyBoss()
     {
-        GameController.Instance.ChangeState(GameState.CLEAR);
+        GameController.Instance.ClearBoss();
 
         Animator.Rebind();
 

@@ -2,11 +2,10 @@ using UnityEngine;
 
 using System.Collections;
 
-public class EnemyFactory : MonoBehaviour
+public class EnemyFactory : MonoBehaviour, IGameStateListener
 {
     public float SpawnIntervalTime = 0.1f;
 
-    private float mSpawnTime;
     private int mSpawnedCount;
     private int mSpawnAmount;
     private int mEnemyCount;
@@ -17,18 +16,24 @@ public class EnemyFactory : MonoBehaviour
     void Awake()
     {
         GameController.Instance.EmFactory = this;
+        GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void Init()
+    public void OnChangeState(GameState currentState)
     {
-        mEnemyCount = 0;
-        mSpawnedCount = 0;
-        mSpawnAmount = DEFAULT_SPAWN_AMOUNT;
-    }
+        var gameController = GameController.Instance;
 
-    public bool IsEmpty()
-    {
-        return mEnemyCount <= 0;
+        if (currentState == GameState.PLAY)
+        {
+            mEnemyCount = 0;
+            mSpawnedCount = 0;
+            mSpawnAmount = DEFAULT_SPAWN_AMOUNT;
+        }
+        else if (currentState == GameState.BOSS)
+        {
+            StopAllCoroutines();
+            gameController.Boss = SpawnBoss(gameController.Map.BossSpawnPoint.position);
+        }
     }
 
     public void OnEnemyDead()
@@ -36,27 +41,31 @@ public class EnemyFactory : MonoBehaviour
         mEnemyCount -= 1;
     }
 
+    void Update()
+    {
+        var gameController = GameController.Instance;
+
+        if (gameController.CurrentState != GameState.PLAY)
+            return;
+
+        if (mEnemyCount <= 0)
+            StartCoroutine(Co_SpawnEnemiesCycle(gameController.Map, gameController.Stage));
+    }
+
     public IEnumerator Co_SpawnEnemiesCycle(MapController map, int stage)
     {
         while (mSpawnedCount < mSpawnAmount)
         {
-            mSpawnTime += Time.deltaTime;
+            Vector3 position = map.GetRandomTilePosition();
+            position.y += SPAWN_HEIGHT;
 
-            if (mSpawnTime >= SpawnIntervalTime)
-            {
-                mSpawnTime = 0f;
+            SpawnEnemy(stage, position);
 
-                Vector3 position = map.GetRandomTilePosition();
-                position.y += SPAWN_HEIGHT;
-
-                SpawnEnemy(stage, position);
-            }
+            yield return new WaitForSeconds(SpawnIntervalTime);
         }
 
         mSpawnedCount = 0;
         mSpawnAmount += DEFAULT_SPAWN_AMOUNT;
-
-        yield break;
     }
 
     private void SpawnEnemy(int stage, Vector3 position)
@@ -143,7 +152,7 @@ public class EnemyFactory : MonoBehaviour
         return name;
     }
 
-    public BossEnemy SpawnBoss(Vector3 position)
+    private BossEnemy SpawnBoss(Vector3 position)
     {
         Vector3 spawnPosition = position;
 

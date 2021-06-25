@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using System.Collections;
+using System.Collections.Generic;
 
 public enum GameState {
     TITLE,
@@ -20,11 +21,13 @@ public class GameController : MonoBehaviour
     public GameState PrevState { get; private set; }
     public int Stage { get; private set; }
     public float GameTime { get; private set; }
-    public BossEnemy Boss { get; private set; }
     public MapController Map { get; set; }
     public EnemyFactory EmFactory { get; set; }
 
     public PlayerController Player;
+    public BossEnemy Boss;
+
+    public List<IGameStateListener> GameStateListeners = new List<IGameStateListener>();
 
     private const float STAGE_GOAL_TIME = 10f;
     private const float STAGE_READY_TIME_SPEED = 10f;
@@ -43,57 +46,20 @@ public class GameController : MonoBehaviour
     {
         switch (CurrentState)
         {
-            case GameState.TITLE:
-                {
-                    // do nothing.
-                }
-                break;
             case GameState.READY:
                 {
                     GameTime = Mathf.Min(GameTime + Time.deltaTime * STAGE_READY_TIME_SPEED, STAGE_GOAL_TIME);
 
-                    if (GameTime < STAGE_GOAL_TIME)
-                        return;
-
-                    ChangeState(GameState.REST);
-
-                    IPageView currentPage = SceneSwitchManager.Instance.GetCurrentPage();
-                    PageBattleZone pageBattleZone = currentPage as PageBattleZone;
-                    pageBattleZone.TimerAnimation(() =>
-                    {
-                        ChangeState(GameState.PLAY);
-
-                        Map.SetStage(Stage);
-                        EmFactory.Init();
-                    });
+                    if (GameTime == STAGE_GOAL_TIME)
+                        ChangeState(GameState.REST);
                 }
                 break;
             case GameState.PLAY:
                 {
-                    GameTime = Mathf.Max(0f, Time.deltaTime);
+                    GameTime = Mathf.Max(0f, GameTime - Time.deltaTime);
 
-                    SpawnEnemies();
-
-                    SpawnBoss();
-                }
-                break;
-            case GameState.PAUSE:
-            case GameState.OVER:
-            case GameState.BOSS:
-            case GameState.REST:
-                {
-                    // do nothing.
-                }
-                break;
-            case GameState.CLEAR:
-                {
-                    Stage++;
-
-                    IPageView currentPage = SceneSwitchManager.Instance.GetCurrentPage();
-                    PageBattleZone pageBattleZone = currentPage as PageBattleZone;
-                    pageBattleZone.EndBoss();
-
-                    ChangeState(GameState.READY);
+                    if (GameTime == 0)
+                        ChangeState(GameState.BOSS);
                 }
                 break;
         }
@@ -103,6 +69,11 @@ public class GameController : MonoBehaviour
     {
         PrevState = CurrentState;
         CurrentState = state;
+
+        foreach (var listeners in GameStateListeners)
+        {
+            listeners.OnChangeState(state);
+        }
     }
 
     public void ReturnToPrevState()
@@ -110,29 +81,17 @@ public class GameController : MonoBehaviour
         GameState temp = CurrentState;
         CurrentState = PrevState;
         PrevState = temp;
+
+        foreach (var listeners in GameStateListeners)
+        {
+            listeners.OnChangeState(CurrentState);
+        }
     }
 
-    private void SpawnEnemies()
-	{
-        if (EmFactory.IsEmpty() == false)
-            return;
-
-        StartCoroutine(EmFactory.Co_SpawnEnemiesCycle(Map, Stage));
-	}
-
-    private void SpawnBoss()
+    public void ClearBoss()
     {
-        if (GameTime > 0)
-            return;
-
-        GameTime = 0;
-        ChangeState(GameState.BOSS);
-
-        Boss = EmFactory.SpawnBoss(Map.BossSpawnPoint.position);
-
-        IPageView currentPage = SceneSwitchManager.Instance.GetCurrentPage();
-        PageBattleZone pageBattleZone = currentPage as PageBattleZone;
-        pageBattleZone.StartBoss();
+        Stage++;
+        ChangeState(GameState.READY);
     }
 
     public IEnumerator Co_StartGame()
@@ -155,6 +114,8 @@ public class GameController : MonoBehaviour
 
     public void ReturnToTitle()
     {
+        GameStateListeners.Clear();
+
         ChangeState(GameState.TITLE);
         Player.Despawn();
         ResourceManager.UnloadLevelScene("Map");
