@@ -2,17 +2,18 @@
 
 using System.Collections;
 
-public class CameraController : MonoBehaviour {
-
+public class CameraController : MonoBehaviour, IGameStateListener
+{
     private Transform mTm;
 	private Transform mTarget;
 
-	public float mHeight = 3.0f;
-	public float mDistance = 1.5f;
+    public float mHeight = 3.0f;
+    public float mDistance = 1.5f;
     public float mFrequency = 15f;
     public float mAmplitude;
     public float mDuration;
 
+    private float mZoomValue;
     private float mShakeTime;
     private bool mIsShaked;
 
@@ -26,56 +27,44 @@ public class CameraController : MonoBehaviour {
             Destroy(gameObject);
 
         mTm = transform;
-	}
+        GameController.Instance.GameStateListeners.Add(this);
+    }
 
-	void LateUpdate() 
+    public void OnChangeState(GameState currentState)
+    {
+        if (currentState == GameState.READY)
+            mZoomValue = 1f;
+        else if (currentState == GameState.OVER)
+            mZoomValue = 0.3f;
+    }
+
+    void LateUpdate() 
     {
         if (mTarget == null)
             return;
 
-        GameState gameState = GameController.Instance.CurrentState;
+        float x = mTarget.position.x;
+        float y = mTarget.position.y + mHeight * mZoomValue;
+        float z = mTarget.position.z - mDistance * mZoomValue;
 
-		if(gameState == GameState.OVER || gameState == GameState.QUIT)
+        Vector3 targetPosition = new Vector3(x, y, z);
+
+        targetPosition = Vector3.Lerp(mTm.position, targetPosition, 0.05f);
+
+        if (mIsShaked)
         {
-			if(mTarget.position.y <= -5f) {
-				return;
-			}		
+            mShakeTime += Time.deltaTime * mDuration;
 
-            float targetX = mTarget.position.x;
-            float targetY = mTarget.position.y + mHeight * 0.3f;
-            float targetZ = mTarget.position.z - mDistance * 0.3f;
+            targetPosition.x += Mathf.Sin(mShakeTime * mFrequency) * Mathf.Pow(0.5f, mShakeTime) * mAmplitude;
 
-            float thisX = Mathf.Lerp(mTm.position.x, targetX, 0.05f);
-            float thisY = Mathf.Lerp(mTm.position.z, targetZ, 0.05f);
-            float thisZ = Mathf.Lerp(mTm.position.y, targetY, 0.05f);
-
-            mTm.position = new Vector3(thisX, thisZ, thisY);
-        }
-        else
-        {
-			float targetX = mTarget.position.x;
-			float targetY = mTarget.position.y + mHeight;
-			float targetZ = mTarget.position.z - mDistance;
-
-			float thisX = Mathf.Lerp(mTm.position.x, targetX, 0.05f);
-			float thisY = Mathf.Lerp(mTm.position.y, targetY, 0.05f);
-			float thisZ = Mathf.Lerp(mTm.position.z, targetZ, 0.05f);
-
-            if (mIsShaked)
+            if (mShakeTime >= 6f)
             {
-                mShakeTime += Time.deltaTime * mDuration;
-
-                thisX += Mathf.Sin(mShakeTime * mFrequency) * Mathf.Pow(0.5f, mShakeTime) * mAmplitude;
-
-                if (mShakeTime >= 6f)
-                {
-                    mShakeTime = 0f;
-                    mIsShaked = false;
-                }
+                mShakeTime = 0f;
+                mIsShaked = false;
             }
-
-            mTm.position = new Vector3(thisX, thisY, thisZ);
         }
+
+        mTm.position = targetPosition;
 	}
 
     public void SetTarget(Transform tm)
