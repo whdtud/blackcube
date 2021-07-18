@@ -10,7 +10,7 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
     private int mSpawnAmount;
     private int mEnemyCount;
 
-    private const int DEFAULT_SPAWN_AMOUNT = 1;
+    private const int DEFAULT_SPAWN_AMOUNT = 5;
     private const int SPAWN_HEIGHT = 3;
 
     void Awake()
@@ -19,7 +19,7 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
         GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void OnChangeState(GameState currentState)
+    public void OnChangeState(GameState prevState, GameState currentState)
     {
         var gameController = GameController.Instance;
 
@@ -65,7 +65,7 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
         }
 
         mSpawnedCount = 0;
-        mSpawnAmount += DEFAULT_SPAWN_AMOUNT;
+        mSpawnAmount += DEFAULT_SPAWN_AMOUNT / 2;
     }
 
     private void SpawnEnemy(int stage, Vector3 position)

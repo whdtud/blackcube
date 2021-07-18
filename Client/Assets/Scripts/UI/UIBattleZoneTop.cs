@@ -10,8 +10,11 @@ public class UIBattleZoneTop : MonoBehaviour, IGameStateListener
         GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void OnChangeState(GameState currentState)
+    public void OnChangeState(GameState prevState, GameState currentState)
     {
+        if (SceneSwitchManager.Instance.GetCurrentPageKind() == UIPageKind.Page_Skill)
+            return;
+
         switch (currentState)
         {
             case GameState.READY:

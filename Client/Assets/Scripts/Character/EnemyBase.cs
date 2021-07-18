@@ -44,6 +44,15 @@ public abstract class EnemyBase : CombatCharacterBase
         base.Update();
     }
 
+    protected bool IsBattleAble()
+    {
+        GameState gameState = GameController.Instance.CurrentState;
+        if (gameState == GameState.OVER)
+            return false;
+
+        return true;
+    }
+
     public override void OnDamaged(float attackPower)
     {
         Hp -= attackPower;

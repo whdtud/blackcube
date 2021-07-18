@@ -107,6 +107,9 @@ public class BossEnemy : EnemyBase
     {
         base.Update();
 
+        if (IsBattleAble() == false)
+            return;
+
         if (mNextSuperModeTime < Time.time)
         {
             mSuperModeEndTime = Time.time + SUPER_MODE_KEEP_TIME;

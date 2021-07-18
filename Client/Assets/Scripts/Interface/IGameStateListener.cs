@@ -1,4 +1,4 @@
 public interface IGameStateListener
 {
-    public void OnChangeState(GameState currentState);
+    public void OnChangeState(GameState prevState, GameState currentState);
 }

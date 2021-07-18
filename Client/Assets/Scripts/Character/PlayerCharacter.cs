@@ -32,6 +32,8 @@ public class PlayerCharacter : CombatCharacterBase
 		mSkinMtrl = Tm.Find("Body").GetComponent<Renderer>().material;
 
 		Data = GameController.Instance.Player.Data;
+
+		Animator.Rebind();
 	}
 
     public override void Init()
@@ -119,9 +121,8 @@ public class PlayerCharacter : CombatCharacterBase
 			children[i].GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100)));
 		}
 
-		GameObject effect = ResourceManager.Instance.SpawnEffect(Defines.FX_EXPLOSION);
-		effect.transform.position = Tm.position;
-		effect.transform.rotation = Quaternion.identity;
+		var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_EXPLOSION);
+		effect.Init(Tm.position, Quaternion.identity);
 
 	}
 
@@ -248,7 +249,7 @@ public class PlayerCharacter : CombatCharacterBase
 
 	public void OnLevelUp()
     {
-		var effect = ResourceManager.Instance.SpawnEffect(Defines.FX_LEVEL_UP).GetComponent<ParticleController>();
+		var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_LEVEL_UP);
 		effect.Init(Tm.position, Quaternion.identity);
 	}
 

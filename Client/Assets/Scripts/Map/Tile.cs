@@ -83,9 +83,8 @@ public class Tile : MonoBehaviour
             player.Character.Jump(Vector3.up, 3f);
             player.Character.OnDamaged(GameController.Instance.Stage);
 
-            GameObject effect = ResourceManager.Instance.SpawnEffect(Defines.FX_EXPLOSION);
-            effect.transform.position = transform.position;
-            effect.transform.rotation = Quaternion.identity;
+            var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_EXPLOSION);
+            effect.Init(transform.position, Quaternion.identity);
         }
         else if (mMaterial.color == Color.yellow)
         {
@@ -96,9 +95,8 @@ public class Tile : MonoBehaviour
 
             player.Character.JumpOnTile();
 
-            GameObject effect = ResourceManager.Instance.SpawnEffect(Defines.FX_TILE_YELLOW);
-            effect.transform.position = transform.position;
-            effect.transform.rotation = Quaternion.identity;
+            var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_TILE_YELLOW);
+            effect.Init(transform.position, Quaternion.identity);
         }
         else if (mMaterial.color == Color.blue)
         {
@@ -111,9 +109,8 @@ public class Tile : MonoBehaviour
             mDestColor = Defines.TILE_WHITE_GREEN;
             mNextChangeColorTime = Time.time + COLOR_KEEP_TIME;
 
-            GameObject effect = ResourceManager.Instance.SpawnEffect(Defines.FX_TILE_GREEN);
-            effect.transform.position = transform.position;
-            effect.transform.rotation = Quaternion.identity;
+            var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_TILE_GREEN);
+            effect.Init(transform.position, Quaternion.identity);
         }
         else if (mMaterial.color == Defines.TILE_PURPLE)
         {

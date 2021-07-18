@@ -34,7 +34,7 @@ public class MapController : MonoBehaviour, IGameStateListener
         LoadMapDataFromXml();
     }
 
-    public void OnChangeState(GameState currentState)
+    public void OnChangeState(GameState prevState, GameState currentState)
     {
         if (currentState == GameState.PLAY ||
             currentState == GameState.BOSS)

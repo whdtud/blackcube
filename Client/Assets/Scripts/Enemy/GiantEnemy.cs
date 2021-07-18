@@ -29,6 +29,9 @@ public class GiantEnemy : EnemyBase
     {
         base.Update();
 
+        if (IsBattleAble() == false)
+            return;
+
         if (State != EnemyState.MOVE)
             return;
 

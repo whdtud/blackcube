@@ -31,6 +31,9 @@ public class BasicEnemy : EnemyBase
     {
         base.Update();
 
+        if (IsBattleAble() == false)
+            return;
+
         if (State == EnemyState.ATTACK)
             return;
 

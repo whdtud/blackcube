@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour, IGameStateListener
         GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void OnChangeState(GameState currentState)
+    public void OnChangeState(GameState prevState, GameState currentState)
     {
         if (currentState == GameState.READY)
             mZoomValue = 1f;

@@ -27,6 +27,9 @@ public class BombEnemy : EnemyBase
     {
         base.Update();
 
+        if (IsBattleAble() == false)
+            return;
+
         if (State != EnemyState.MOVE)
             return;
 

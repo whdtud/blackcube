@@ -133,15 +133,10 @@ public class PagePause : PageView
     {
         GameState gameState = GameController.Instance.CurrentState;
 
-        if (gameState == GameState.OVER ||
-            gameState == GameState.QUIT)
-        {
+        if (gameState == GameState.OVER)
             OnClickQuitButton();
-        }
         else
-        {
             OnClickResumeButton();
-        }
 
         return true;
     }

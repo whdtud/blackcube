@@ -50,6 +50,13 @@ public class Joystick : MonoBehaviour {
     {
         PlayerCharacter player = GameController.Instance.Player.Character;
 
+        var currentState = GameController.Instance.CurrentState;
+        if (currentState == GameState.OVER || currentState == GameState.PAUSE)
+        {
+            player.MoveDir = Vector3.zero;
+            return;
+        }
+
 #if UNITY_EDITOR
         float w = Input.GetAxis("Horizontal");
         float h = Input.GetAxis("Vertical");

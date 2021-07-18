@@ -3,7 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum GameState {
+public enum GameState 
+{
     TITLE,
 	READY,
 	PLAY,
@@ -12,7 +13,6 @@ public enum GameState {
 	BOSS,
 	CLEAR,
     REST,
-    QUIT,
 }
 
 public class GameController : MonoBehaviour
@@ -70,9 +70,12 @@ public class GameController : MonoBehaviour
         PrevState = CurrentState;
         CurrentState = state;
 
+        if (state == GameState.PAUSE)
+            return;
+
         foreach (var listeners in GameStateListeners)
         {
-            listeners.OnChangeState(state);
+            listeners.OnChangeState(PrevState, state);
         }
     }
 
@@ -81,11 +84,6 @@ public class GameController : MonoBehaviour
         GameState temp = CurrentState;
         CurrentState = PrevState;
         PrevState = temp;
-
-        foreach (var listeners in GameStateListeners)
-        {
-            listeners.OnChangeState(CurrentState);
-        }
     }
 
     public void ClearBoss()

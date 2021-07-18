@@ -112,7 +112,7 @@ public class SkillLaser : MonoBehaviour {
 		var enemy = collider.GetComponent<EnemyBase>();
 		
 		if(enemy != null)
-			enemy.OnDamaged(mPower * Time.deltaTime * 1000f);
+			enemy.OnDamaged(mPower * 3f * Time.deltaTime);
 	}
 
 }
