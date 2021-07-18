@@ -10,7 +10,7 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
     private int mSpawnAmount;
     private int mEnemyCount;
 
-    private const int DEFAULT_SPAWN_AMOUNT = 5;
+    private const int DEFAULT_SPAWN_AMOUNT = 1;
     private const int SPAWN_HEIGHT = 3;
 
     void Awake()

@@ -18,6 +18,7 @@ public class BasicEnemy : EnemyBase
         int currentStage = GameController.Instance.Stage;
         Hp = currentStage;
         AttackPower = 1 + (currentStage - 1) * 4;
+        AttackDelay = 2f;
         Exp = 1f;
         MoveSpeed = 1f;
         AttackRange = 0.6f;
@@ -34,7 +35,7 @@ public class BasicEnemy : EnemyBase
             return;
 
         LookAtTarget();
-
+        
         if (GetDistanceVector2() > AttackRange)
         {
             MoveToTarget();

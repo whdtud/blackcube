@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
 
     public List<IGameStateListener> GameStateListeners = new List<IGameStateListener>();
 
-    private const float STAGE_GOAL_TIME = 10f;
+    private const float STAGE_GOAL_TIME = 60f;
     private const float STAGE_READY_TIME_SPEED = 10f;
 
     public static GameController Instance { get; private set; }
