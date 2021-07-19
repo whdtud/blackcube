@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyFactory : MonoBehaviour, IGameStateListener
 {
@@ -9,6 +10,8 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
     private int mSpawnedCount;
     private int mSpawnAmount;
     private int mEnemyCount;
+
+    private List<EnemyBase> mEnemyList = new List<EnemyBase>();
 
     private const int DEFAULT_SPAWN_AMOUNT = 5;
     private const int SPAWN_HEIGHT = 3;
@@ -31,14 +34,26 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
         }
         else if (currentState == GameState.BOSS)
         {
-            StopAllCoroutines();
+            StopCoroutine(Co_SpawnEnemiesCycle(gameController.Map, gameController.Stage));
             gameController.Boss = SpawnBoss(gameController.Map.BossSpawnPoint.position);
         }
     }
 
-    public void OnEnemyDead()
+    public void ClearEnemies()
+    {
+        foreach (var enemy in mEnemyList)
+        {
+            enemy.gameObject.SetActive(false);
+        }
+
+        mEnemyList.Clear();
+    }
+
+    public void OnEnemyDead(EnemyBase enemy)
     {
         mEnemyCount -= 1;
+
+        mEnemyList.Remove(enemy);
     }
 
     void Update()
@@ -83,6 +98,8 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
 
         mEnemyCount++;
         mSpawnedCount++;
+
+        mEnemyList.Add(enemy);
 
         return enemy;
     }

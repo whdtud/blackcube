@@ -53,6 +53,14 @@ public class Tiles : MonoBehaviour
         }
     }
 
+    public void ChangeTiles(Color color)
+    {
+        for (int i = 0; i < mTiles.Length; i++)
+        {
+            mTiles[i].SetFixedColor(color);
+        }
+    }
+
     // 타일 정렬 IComparer
     private class TileComparer : IComparer
     {

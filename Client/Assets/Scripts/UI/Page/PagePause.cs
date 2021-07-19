@@ -150,7 +150,8 @@ public class PagePause : PageView
 
     private void OnClickRestartButton()
     {
-        // game reset.
+        SceneSwitchManager.Instance.PopAdditivePage();
+        GameController.Instance.RestartGame();
     }
 
     private void OnClickQuitButton()

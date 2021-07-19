@@ -110,11 +110,24 @@ public class GameController : MonoBehaviour
         SceneSwitchManager.Instance.PushPage(UIPageKind.Page_BattleZone, null);
     }
 
+    public void RestartGame()
+    {
+        ChangeState(GameState.READY);
+        GameTime = 0f;
+        Stage = 1;
+        Boss = null;
+
+        Map.ResetMap();
+        EmFactory.ClearEnemies();
+        Player.Init();
+        Player.Character.SetPosition(Map.PlayerSpawnPoint.position, Quaternion.identity);
+        CameraController.Instance.SetTarget(Player.Character.Tm);
+    }
+
     public void ReturnToTitle()
     {
-        GameStateListeners.Clear();
-
         ChangeState(GameState.TITLE);
+
         Player.Despawn();
         ResourceManager.UnloadLevelScene("Map");
         SceneSwitchManager.Instance.ClearAndPushPage(UIPageKind.Page_Title, null);

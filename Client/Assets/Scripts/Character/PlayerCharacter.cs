@@ -31,14 +31,14 @@ public class PlayerCharacter : CombatCharacterBase
 
 		mSkinMtrl = Tm.Find("Body").GetComponent<Renderer>().material;
 
-		Data = GameController.Instance.Player.Data;
-
 		Animator.Rebind();
 	}
 
     public override void Init()
     {
         base.Init();
+
+		Data = GameController.Instance.Player.Data;
 
 		mDashTime = Data.DashDelay;
 		mSkillTime = Data.SkillDelay;

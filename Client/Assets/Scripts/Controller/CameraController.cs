@@ -70,6 +70,8 @@ public class CameraController : MonoBehaviour, IGameStateListener
     public void SetTarget(Transform tm)
     {
         mTarget = tm;
+
+        mTm.position = new Vector3(0f, 1000f, 5.5f);
     }
 
     public void Shake()

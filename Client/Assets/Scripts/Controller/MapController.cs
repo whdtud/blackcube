@@ -34,6 +34,13 @@ public class MapController : MonoBehaviour, IGameStateListener
         LoadMapDataFromXml();
     }
 
+    public void ResetMap()
+    {
+        mCurrentMapIndex = -1;
+
+        mTiles.ChangeTiles(Color.white);
+    }
+
     public void OnChangeState(GameState prevState, GameState currentState)
     {
         if (currentState == GameState.PLAY ||

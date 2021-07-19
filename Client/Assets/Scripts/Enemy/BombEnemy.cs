@@ -54,7 +54,7 @@ public class BombEnemy : EnemyBase
     public void BombEnd()
     {
         CameraController.Instance.Shake();
-        GameController.Instance.EmFactory.OnEnemyDead();
+        GameController.Instance.EmFactory.OnEnemyDead(this);
 
         if (GetDistanceVector3() < AttackRange * 1.3f)
         {
