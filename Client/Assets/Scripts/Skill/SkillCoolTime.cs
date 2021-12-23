@@ -30,7 +30,7 @@ public class SkillCoolTime : SkillBase {
     public override void LevelUp()
     {
         mLevel++;
-		GameController.Instance.Player.Data.DashDelay = 3 - 3 * mLevel * 0.2f;
-		GameController.Instance.Player.Data.SkillDelay = 9 - 9 * mLevel * 0.2f;
+		PlayerController.Instance.Data.DashDelay = 3 - 3 * mLevel * 0.2f;
+		PlayerController.Instance.Data.SkillDelay = 9 - 9 * mLevel * 0.2f;
     }
 }

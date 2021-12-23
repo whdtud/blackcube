@@ -52,7 +52,7 @@ public class PageBattleZone : PageView
 
     void Update()
     {
-        PlayerData player = GameController.Instance.Player.Data;
+        PlayerData player = PlayerController.Instance.Data;
 
         Hp.value = player.HpPercent;
         HpBG.value = Mathf.Lerp(HpBG.value, Hp.value, 0.05f);

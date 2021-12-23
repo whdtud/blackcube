@@ -50,8 +50,8 @@ public class GiantEnemy : EnemyBase
         if (collision.transform.tag == "Player")
         {
             Vector3 dir = Tm.position.Direction(TargetTm.position).normalized;
-            GameController.Instance.Player.Character.Jump(dir, 2f);
-            GameController.Instance.Player.Character.OnDamaged(AttackPower);
+            PlayerController.Instance.Character.Jump(dir, 2f);
+            PlayerController.Instance.Character.OnDamaged(AttackPower);
         }
     }
 }

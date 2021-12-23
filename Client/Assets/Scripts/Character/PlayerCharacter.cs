@@ -38,7 +38,7 @@ public class PlayerCharacter : CombatCharacterBase
     {
         base.Init();
 
-		Data = GameController.Instance.Player.Data;
+		Data = PlayerController.Instance.Data;
 
 		mDashTime = Data.DashDelay;
 		mSkillTime = Data.SkillDelay;

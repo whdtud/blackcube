@@ -17,12 +17,12 @@ public class SkillMoveSpeed : SkillBase
         if (mLevel < mMaxLevel - 1)
         {
             text = string.Format("LEVEL {0}\n\n\n이동속도가\n증가합니다.\n\n\n속도 : {1} (+0.5)",
-            mLevel + 1, GameController.Instance.Player.Data.MoveSpeed);
+            mLevel + 1, PlayerController.Instance.Data.MoveSpeed);
         }
         else
         {
             text = string.Format("LEVEL MAX\n\n\n이동속도가\n증가합니다.\n\n\n속도 : {0} (+0.5)",
-                GameController.Instance.Player.Data.MoveSpeed);
+                PlayerController.Instance.Data.MoveSpeed);
         }
 
         return text;
@@ -31,6 +31,6 @@ public class SkillMoveSpeed : SkillBase
     public override void LevelUp()
     {
         mLevel++;
-        GameController.Instance.Player.Data.MoveSpeed = 1 + 0.5f * mLevel;
+        PlayerController.Instance.Data.MoveSpeed = 1 + 0.5f * mLevel;
     }
 }

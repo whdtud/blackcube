@@ -40,7 +40,7 @@ public class PagePause : PageView
             ResumeButton.gameObject.SetActive(false);
             RestartButton.gameObject.SetActive(false);
             QuitButton.gameObject.SetActive(false);
-            PlatformHelper.ReportScore(GameController.Instance.Player.Data.KillScore);
+            PlatformHelper.ReportScore(PlayerController.Instance.Data.KillScore);
 
             StartCoroutine(Co_GameOverAnimation());
         }

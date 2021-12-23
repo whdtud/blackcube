@@ -16,12 +16,12 @@ public class SkillMaxHp : SkillBase {
         if (mLevel < mMaxLevel - 1)
         {
             text = string.Format("LEVEL {0}\n\n\n최대 체력이\n증가합니다.\n\n\n최대 체력 : {1} (+10)", 
-            mLevel + 1, GameController.Instance.Player.Data.MaxHp);
+            mLevel + 1, PlayerController.Instance.Data.MaxHp);
         }
         else
         {
             text = string.Format("LEVEL MAX\n\n\n최대 체력이\n증가합니다.\n\n\n최대 체력:{0} (+10)", 
-            GameController.Instance.Player.Data.MaxHp);
+            PlayerController.Instance.Data.MaxHp);
         }
 
         return text;
@@ -30,7 +30,7 @@ public class SkillMaxHp : SkillBase {
     public override void LevelUp()
     {
         mLevel++;
-        GameController.Instance.Player.Data.MaxHp = 10 + mLevel * 10;
-        GameController.Instance.Player.Data.Hp = GameController.Instance.Player.Data.MaxHp;
+        PlayerController.Instance.Data.MaxHp = 10 + mLevel * 10;
+        PlayerController.Instance.Data.Hp = PlayerController.Instance.Data.MaxHp;
     }
 }

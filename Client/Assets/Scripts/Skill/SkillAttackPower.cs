@@ -16,12 +16,12 @@ public class SkillAttackPower : SkillBase
         if (mLevel < mMaxLevel - 1)
         {
             text = string.Format("LEVEL {0}\n\n\n미사일의 발사 수가\n증가합니다.\n\n\n발사 수 : {1} (+1)",
-            mLevel + 1, GameController.Instance.Player.Data.AttackPower);
+            mLevel + 1, PlayerController.Instance.Data.AttackPower);
         }
         else
         {
             text = string.Format("LEVEL MAX\n\n\n미사일의 발사 수가\n증가합니다.\n\n\n발사 수 : {0} (+1)",
-            GameController.Instance.Player.Data.AttackPower);
+            PlayerController.Instance.Data.AttackPower);
         }
 
         return text;
@@ -30,6 +30,6 @@ public class SkillAttackPower : SkillBase
     public override void LevelUp()
     {
         mLevel++;
-        GameController.Instance.Player.Data.AttackPower = 1 + mLevel;
+        PlayerController.Instance.Data.AttackPower = 1 + mLevel;
     }
 }

@@ -1,30 +1,17 @@
 ﻿using UnityEngine;
 
-public class GameManager : MonoBehaviour {
-
-    public static GameManager Instance { get; private set; }
+public class GameManager : STController<GameManager> {
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            Init();
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
+        if (WasLoaded())
             Destroy(gameObject);
-        }
+        else
+            DontDestroyOnLoad(gameObject);
     }
 
     void Start()
     {
         PlatformHelper.Activate();
-    }
-
-    private void Init()
-    {
-
     }
 }

@@ -24,7 +24,7 @@ public class AttackBullet : MonoBehaviour {
 		mTm.position = position;
 		mTm.rotation = rotation;
 
-		mLifeTime = GameController.Instance.Player.Data.AttackRange;
+		mLifeTime = PlayerController.Instance.Data.AttackRange;
 
 		StartCoroutine(Co_OutRange());
 	}

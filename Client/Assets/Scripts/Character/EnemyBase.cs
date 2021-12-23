@@ -32,7 +32,7 @@ public abstract class EnemyBase : CombatCharacterBase
     {
         base.Init();
 
-        TargetTm = GameController.Instance.Player.Character.Tm;
+        TargetTm = PlayerController.Instance.Character.Tm;
 
         State = EnemyState.IDLE;
 
@@ -73,8 +73,8 @@ public abstract class EnemyBase : CombatCharacterBase
     {
         if (getPoint)
         {
-            GameController.Instance.Player.Data.KillScore += 1;
-            GameController.Instance.Player.Data.Xp += Exp;
+            PlayerController.Instance.Data.KillScore += 1;
+            PlayerController.Instance.Data.Xp += Exp;
         }
 
         CameraController.Instance.Shake();

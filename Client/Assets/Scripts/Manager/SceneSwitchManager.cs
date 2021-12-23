@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-public class SceneSwitchManager : MonoBehaviour
+public class SceneSwitchManager : STController<SceneSwitchManager>
 {
     #region UIPageData
     public class UIPageData
@@ -48,14 +48,8 @@ public class SceneSwitchManager : MonoBehaviour
     }
     #endregion
 
-    public static SceneSwitchManager Instance { get; private set; }
-
     void Awake()
     {
-        if (Instance != null)
-            return;
-
-        Instance = this;
     }
 
     void Update()
@@ -71,6 +65,7 @@ public class SceneSwitchManager : MonoBehaviour
         Func<bool> escFunc = null;
         if (mCurrentAdditivePage != null)
         {
+
             string additivePageName = mCurrentAdditivePage.GetGameObject().name;
             if (mEscHandlerDic.TryGetValue(additivePageName, out escFunc) == false)
             {

@@ -17,12 +17,12 @@ public class SkillAttackRange : SkillBase
         if (mLevel < mMaxLevel - 1)
         {
             text = string.Format("LEVEL {0}\n\n\n미사일의 사정거리가\n증가합니다.\n\n\n사정거리 : {1} (+4)", 
-            mLevel + 1, GameController.Instance.Player.Data.AttackRange * 10);
+            mLevel + 1, PlayerController.Instance.Data.AttackRange * 10);
         }
         else
         {
             text = string.Format("LEVEL MAX\n\n\n미사일의 사정거리가\n증가합니다.\n\n\n사정거리 : {0} (+4)", 
-			GameController.Instance.Player.Data.AttackRange * 10);
+			PlayerController.Instance.Data.AttackRange * 10);
         }
 
         return text;
@@ -31,6 +31,6 @@ public class SkillAttackRange : SkillBase
     public override void LevelUp()
     {
         mLevel++;
-		GameController.Instance.Player.Data.AttackRange = 0.4f + mLevel * 0.4f;
+		PlayerController.Instance.Data.AttackRange = 0.4f + mLevel * 0.4f;
     }
 }

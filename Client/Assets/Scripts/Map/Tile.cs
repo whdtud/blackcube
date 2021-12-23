@@ -74,7 +74,7 @@ public class Tile : MonoBehaviour
         if (collision.gameObject.tag != "Player")
             return;
 
-        PlayerController player = GameController.Instance.Player;
+        PlayerController player = PlayerController.Instance;
 
         if (mMaterial.color == Color.red)
         {
@@ -128,7 +128,7 @@ public class Tile : MonoBehaviour
         if (collision.gameObject.tag != "Player")
             return;
 
-        PlayerController player = GameController.Instance.Player;
+        PlayerController player = PlayerController.Instance;
 
         player.Character.BuffMoveSpeed = GetBuffMoveSpeedFromColor();
 
@@ -138,7 +138,7 @@ public class Tile : MonoBehaviour
 	
 	public void OnCollisionExit(Collision collision)
 	{
-		GameController.Instance.Player.Character.BuffMoveSpeed = 1f;
+		PlayerController.Instance.Character.BuffMoveSpeed = 1f;
 
         if (mDestColor == Defines.TILE_WHITE_BLUE ||
             mDestColor == Defines.TILE_WHITE_PURPLE)

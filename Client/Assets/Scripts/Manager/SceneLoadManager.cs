@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 using System.Collections.Generic;
 
-public class SceneLoadManager : MonoBehaviour
+public class SceneLoadManager : STController<SceneLoadManager>
 {
     private Dictionary<string, Scene> mLoadedScene = new Dictionary<string, Scene>();
 
@@ -12,14 +12,9 @@ public class SceneLoadManager : MonoBehaviour
         "UIBattleZone",
     };
 
-    public static SceneLoadManager Instance { get; private set; }
 
     void Awake()
     {
-        if (Instance != null)
-            return;
-
-        Instance = this;
         Init();
     }
 

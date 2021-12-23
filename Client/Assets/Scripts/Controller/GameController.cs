@@ -15,7 +15,7 @@ public enum GameState
     REST,
 }
 
-public class GameController : MonoBehaviour
+public class GameController : STController<GameController>
 {
     public GameState CurrentState { get; private set; }
     public GameState PrevState { get; private set; }
@@ -24,7 +24,6 @@ public class GameController : MonoBehaviour
     public MapController Map { get; set; }
     public EnemyFactory EmFactory { get; set; }
 
-    public PlayerController Player;
     public BossEnemy Boss;
 
     public List<IGameStateListener> GameStateListeners = new List<IGameStateListener>();
@@ -32,14 +31,8 @@ public class GameController : MonoBehaviour
     private const float STAGE_GOAL_TIME = 60f;
     private const float STAGE_READY_TIME_SPEED = 10f;
 
-    public static GameController Instance { get; private set; }
-
     void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
     }
 
     void Update() 
@@ -103,9 +96,9 @@ public class GameController : MonoBehaviour
         Stage = 1;
         Boss = null;
 
-        Player.Spawn(Map.PlayerSpawnPoint.position);
+        PlayerController.Instance.Spawn(Map.PlayerSpawnPoint.position);
 
-        CameraController.Instance.SetTarget(Player.Character.Tm);
+        CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);
 
         SceneSwitchManager.Instance.PushPage(UIPageKind.Page_BattleZone, null);
     }
@@ -119,16 +112,16 @@ public class GameController : MonoBehaviour
 
         Map.ResetMap();
         EmFactory.ClearEnemies();
-        Player.Init();
-        Player.Character.SetPosition(Map.PlayerSpawnPoint.position, Quaternion.identity);
-        CameraController.Instance.SetTarget(Player.Character.Tm);
+        PlayerController.Instance.Init();
+        PlayerController.Instance.Character.SetPosition(Map.PlayerSpawnPoint.position, Quaternion.identity);
+        CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);
     }
 
     public void ReturnToTitle()
     {
         ChangeState(GameState.TITLE);
 
-        Player.Despawn();
+        PlayerController.Instance.Despawn();
         ResourceManager.UnloadLevelScene("Map");
         SceneSwitchManager.Instance.ClearAndPushPage(UIPageKind.Page_Title, null);
     }

@@ -155,8 +155,8 @@ public class BossDeadState : FSMState<BossFSMSystem>
     {
         BossEnemy owner = fsm.Owner;
 
-        GameController.Instance.Player.Character.Data.Xp = 100000;
-        GameController.Instance.Player.Character.Data.KillScore += 1;
+        PlayerController.Instance.Character.Data.Xp = 100000;
+        PlayerController.Instance.Character.Data.KillScore += 1;
 
         var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_FRAGMENT);
         effect.Init(owner.Tm.position, Quaternion.identity);

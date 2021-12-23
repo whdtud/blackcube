@@ -48,7 +48,7 @@ public class Joystick : MonoBehaviour {
 
     void Update()
     {
-        PlayerCharacter player = GameController.Instance.Player.Character;
+        PlayerCharacter player = PlayerController.Instance.Character;
 
         var currentState = GameController.Instance.CurrentState;
         if (currentState == GameState.OVER || currentState == GameState.PAUSE)
@@ -73,7 +73,7 @@ public class Joystick : MonoBehaviour {
             if (Input.GetKeyDown("space"))
             {
                 if (Time[(int)JoystickType.MOVE].fillAmount >= 1)
-                    GameController.Instance.Player.Character.Dash();
+                    PlayerController.Instance.Character.Dash();
             }
         }
         else
@@ -104,7 +104,7 @@ public class Joystick : MonoBehaviour {
             }
             if (!mIsLockSkill)
             {
-                GameController.Instance.Player.Character.TryAttack();
+                PlayerController.Instance.Character.TryAttack();
             }
         }
         else
@@ -125,7 +125,7 @@ public class Joystick : MonoBehaviour {
             if (!mIsLockSkill)
             {
                 mIsLockAttack = false;
-                GameController.Instance.Player.Character.AttackEnded();
+                PlayerController.Instance.Character.AttackEnded();
             }
         }
 
@@ -135,14 +135,14 @@ public class Joystick : MonoBehaviour {
             {
                 if (!mIsLockAttack) mIsLockAttack = true;
                 mIsLockSkill = true;
-                GameController.Instance.Player.Character.BeginSkill();
+                PlayerController.Instance.Character.BeginSkill();
             }
         }
         else if (Input.GetMouseButtonUp(1))
         {
             if (mIsLockSkill)
             {
-                GameController.Instance.Player.Character.SkillFire();
+                PlayerController.Instance.Character.SkillFire();
                 mIsLockAttack = false;
                 mIsLockSkill = false;
             }
@@ -170,7 +170,7 @@ public class Joystick : MonoBehaviour {
 
         if (mAttackTouches.Count == 0)
         {
-            GameController.Instance.Player.Character.AttackEnded();
+            PlayerController.Instance.Character.AttackEnded();
         }
 
         int count = Input.touchCount;
@@ -244,7 +244,7 @@ public class Joystick : MonoBehaviour {
                             {
                                 if (mIsLockDash == false)
                                 {
-                                    GameController.Instance.Player.Character.Dash();
+                                    PlayerController.Instance.Character.Dash();
                                     mIsLockDash = true;
                                 }
                             }
@@ -293,7 +293,7 @@ public class Joystick : MonoBehaviour {
                         //공격
                         if (mIsLockAttack == false)
                         {
-                            GameController.Instance.Player.Character.TryAttack();
+                            PlayerController.Instance.Character.TryAttack();
                         }
 
                         //스킬
@@ -303,7 +303,7 @@ public class Joystick : MonoBehaviour {
                             {
                                 if (mIsLockSkill == false)
                                 {
-                                    GameController.Instance.Player.Character.BeginSkill();
+                                    PlayerController.Instance.Character.BeginSkill();
                                     mIsLockAttack = true;
                                     mIsLockSkill = true;
                                 }
@@ -347,7 +347,7 @@ public class Joystick : MonoBehaviour {
                                 if (Time[(int)JoystickType.ATTACK].fillAmount >= 1)
                                 {
                                     mIsLockAttack = false;
-                                    GameController.Instance.Player.Character.SkillFire();
+                                    PlayerController.Instance.Character.SkillFire();
                                 }
                             }
                         }
@@ -364,7 +364,7 @@ public class Joystick : MonoBehaviour {
 
     void LateUpdate()
     {
-        PlayerCharacter player = GameController.Instance.Player.Character;
+        PlayerCharacter player = PlayerController.Instance.Character;
 
         Time[(int)JoystickType.MOVE].fillAmount = player.DashPercent;
         Time[(int)JoystickType.ATTACK].fillAmount = player.SkillPercent;

@@ -17,12 +17,12 @@ public class SkillAttackSpeed : SkillBase
         if (mLevel < mMaxLevel - 1)
         {
             text = string.Format("LEVEL {0}\n\n\n미사일의 연사 속도가\n빨라집니다.\n\n\n연사 속도 : {1} (-0.2)/SEC", 
-            mLevel + 1, GameController.Instance.Player.Data.AttackDelay);
+            mLevel + 1, PlayerController.Instance.Data.AttackDelay);
         }
         else
         {
             text = string.Format("LEVEL MAX\n\n\n미사일의 연사 속도가\n빨라집니다.\n\n\n연사 속도 : {0} (-0.2)/SEC", 
-            GameController.Instance.Player.Data.AttackDelay);
+            PlayerController.Instance.Data.AttackDelay);
         }
 
         return text;
@@ -31,6 +31,6 @@ public class SkillAttackSpeed : SkillBase
     public override void LevelUp()
     {
         mLevel++;
-		GameController.Instance.Player.Data.AttackDelay = 0.8f - mLevel * 0.2f;
+		PlayerController.Instance.Data.AttackDelay = 0.8f - mLevel * 0.2f;
     }
 }

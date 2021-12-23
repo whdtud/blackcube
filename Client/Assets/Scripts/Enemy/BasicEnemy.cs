@@ -78,8 +78,8 @@ public class BasicEnemy : EnemyBase
         if (State == EnemyState.ATTACK && collision.transform.tag == "Player")
         {
             Vector3 dir = Tm.position.Direction(TargetTm.position).normalized;
-            GameController.Instance.Player.Character.Jump(dir, 1f);
-            GameController.Instance.Player.Character.OnDamaged(AttackPower);
+            PlayerController.Instance.Character.Jump(dir, 1f);
+            PlayerController.Instance.Character.OnDamaged(AttackPower);
         }
     }
 }

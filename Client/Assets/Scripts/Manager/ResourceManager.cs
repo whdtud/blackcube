@@ -4,24 +4,17 @@ using UnityEngine.SceneManagement;
 using System.Xml;
 using System.Collections.Generic;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : STController<ResourceManager>
 {
     private Dictionary<string, Object> mCachedDic = new Dictionary<string, Object>();
     private Dictionary<string, List<GameObject>> mObjectPool = new Dictionary<string, List<GameObject>>();
 
-    public static ResourceManager Instance { get; private set; }
-
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
+        if (WasLoaded())
             Destroy(gameObject);
-        }
+        else
+            DontDestroyOnLoad(gameObject);
     }
 
     private Object GetCachedData(string name)

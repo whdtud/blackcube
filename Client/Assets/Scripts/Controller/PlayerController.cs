@@ -45,14 +45,14 @@ public class PlayerData
 				mHp = Mathf.Min(mHp + (MaxHp * 0.5f), MaxHp);
 				mMaxXp += mMaxXp * 0.5f;
 
-				GameController.Instance.Player.OnLevelUp();
+				PlayerController.Instance.OnLevelUp();
 			}
 		}
 	}
 
 }
 
-public class PlayerController : MonoBehaviour 
+public class PlayerController : STController<PlayerController>
 {
 	public PlayerData Data { get; set; }
 	public PlayerCharacter Character { get; set; }

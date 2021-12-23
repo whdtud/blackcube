@@ -40,14 +40,14 @@ public class SkillLaser : MonoBehaviour {
 		mTm = transform;
 		mCollider = mTm.GetComponent<BoxCollider>();
 
-		var gameController = GameController.Instance.Player;
+		var gameController = PlayerController.Instance;
 		mMaxParticleSize = gameController.Data.LaserCharge;
 		mUseRecoilless = gameController.Data.LaserRecoilless;
 	}
 
 	public void Init()
     {
-		mOwner = GameController.Instance.Player.Character;
+		mOwner = PlayerController.Instance.Character;
 		mShotPos = mOwner.ShotPos;
 		mCollider.enabled = false;
 		mSize = 1f;

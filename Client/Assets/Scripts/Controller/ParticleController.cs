@@ -13,7 +13,7 @@ public class ParticleController : MonoBehaviour {
 	void Awake () 
 	{
 		mTm = transform;
-		mOwnerTm = GameController.Instance.Player.Character.Tm;;
+		mOwnerTm = PlayerController.Instance.Character.Tm;;
 		mParticleSystem = GetComponent<ParticleSystem>();
 	}
 

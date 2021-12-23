@@ -59,8 +59,8 @@ public class BombEnemy : EnemyBase
         if (GetDistanceVector3() < AttackRange * 1.3f)
         {
             Vector3 dir = Tm.position.Direction(TargetTm.position).normalized;
-            GameController.Instance.Player.Character.Jump(dir, 1.5f);
-            GameController.Instance.Player.Character.OnDamaged(AttackPower);
+            PlayerController.Instance.Character.Jump(dir, 1.5f);
+            PlayerController.Instance.Character.OnDamaged(AttackPower);
         }
 
         var effect = ResourceManager.Instance.SpawnEffect<ParticleController>(Defines.FX_EXPLOSION);

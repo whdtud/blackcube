@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SoundManager : MonoBehaviour 
+public class SoundManager : STController<SoundManager>
 {
     private AudioSource mBGM;
     private AudioSource[] mEffects = new AudioSource[MAX_EFFECT_COUNT];
@@ -9,19 +9,9 @@ public class SoundManager : MonoBehaviour
 
     private const int MAX_EFFECT_COUNT = 10;
 
-    public static SoundManager Instance { get; private set; }
-
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            Init();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Init();
     }
 
     void Init()

@@ -21,6 +21,6 @@ public class SkillLaserRecoilless : SkillBase {
 	public override void LevelUp()
 	{
 		mLevel++;
-		GameController.Instance.Player.Data.LaserRecoilless = true;
+		PlayerController.Instance.Data.LaserRecoilless = true;
 	}
 }

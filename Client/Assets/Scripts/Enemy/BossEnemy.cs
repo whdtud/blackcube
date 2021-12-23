@@ -213,7 +213,7 @@ public class BossEnemy : EnemyBase
                 {
                     var bullet = ResourceManager.Instance.SpawnObject<GuidedBullet>(Defines.OBJ_BULLET_BOSS);
                     bullet.Init(this, Tm.position, Quaternion.identity);
-                    bullet.SetTarget(GameController.Instance.Player.Character.Tm);
+                    bullet.SetTarget(PlayerController.Instance.Character.Tm);
                 }
                 break;
             case BossType.SUMMONER:
