@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyFactory : MonoBehaviour, IGameStateListener
+public class EnemyController : STController<EnemyController>, IGameStateListener
 {
     public float SpawnIntervalTime = 0.1f;
 
@@ -18,8 +18,12 @@ public class EnemyFactory : MonoBehaviour, IGameStateListener
 
     void Awake()
     {
-        GameController.Instance.EmFactory = this;
         GameController.Instance.GameStateListeners.Add(this);
+    }
+
+    public void Init()
+    {
+
     }
 
     public void OnChangeState(GameState prevState, GameState currentState)

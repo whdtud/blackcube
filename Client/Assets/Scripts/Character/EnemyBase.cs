@@ -79,7 +79,7 @@ public abstract class EnemyBase : CombatCharacterBase
 
         CameraController.Instance.Shake();
 
-        GameController.Instance.EmFactory.OnEnemyDead(this);
+        EnemyController.Instance.OnEnemyDead(this);
 
         ShowDeadEffect();
 

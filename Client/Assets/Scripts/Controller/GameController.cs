@@ -22,7 +22,6 @@ public class GameController : STController<GameController>
     public int Stage { get; private set; }
     public float GameTime { get; private set; }
     public MapController Map { get; set; }
-    public EnemyFactory EmFactory { get; set; }
 
     public BossEnemy Boss;
 
@@ -98,6 +97,8 @@ public class GameController : STController<GameController>
 
         PlayerController.Instance.Spawn(Map.PlayerSpawnPoint.position);
 
+        EnemyController.Instance.Init();
+
         CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);
 
         SceneSwitchManager.Instance.PushPage(UIPageKind.Page_BattleZone, null);
@@ -111,7 +112,7 @@ public class GameController : STController<GameController>
         Boss = null;
 
         Map.ResetMap();
-        EmFactory.ClearEnemies();
+        EnemyController.Instance.ClearEnemies();
         PlayerController.Instance.Init();
         PlayerController.Instance.Character.SetPosition(Map.PlayerSpawnPoint.position, Quaternion.identity);
         CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);

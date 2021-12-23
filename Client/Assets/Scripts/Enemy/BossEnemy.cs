@@ -232,7 +232,7 @@ public class BossEnemy : EnemyBase
                         z = Random.Range(-1.0f, 1.0f);
                         Vector3 direction = Tm.rotation * new Vector3(x, y, z);
 
-                        var bombEnemy = GameController.Instance.EmFactory.SpawnEnemy(Defines.ENEMY_BOMB_NAME, position);
+                        var bombEnemy = EnemyController.Instance.SpawnEnemy(Defines.ENEMY_BOMB_NAME, position);
                         bombEnemy.Rigidbody.AddForce(direction * 2.0f, ForceMode.VelocityChange);
                     }
                 }
