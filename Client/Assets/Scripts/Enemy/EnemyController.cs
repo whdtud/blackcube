@@ -38,8 +38,8 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
         }
         else if (currentState == GameState.BOSS)
         {
-            StopCoroutine(Co_SpawnEnemiesCycle(gameController.Map, gameController.Stage));
-            gameController.Boss = SpawnBoss(gameController.Map.BossSpawnPoint.position);
+            StopCoroutine(Co_SpawnEnemiesCycle(gameController.Stage));
+            gameController.Boss = SpawnBoss(MapController.Instance.Map.BossSpawnPoint.position);
         }
     }
 
@@ -68,11 +68,13 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
             return;
 
         if (mEnemyCount <= 0)
-            StartCoroutine(Co_SpawnEnemiesCycle(gameController.Map, gameController.Stage));
+            StartCoroutine(Co_SpawnEnemiesCycle(gameController.Stage));
     }
 
-    public IEnumerator Co_SpawnEnemiesCycle(MapController map, int stage)
+    public IEnumerator Co_SpawnEnemiesCycle(int stage)
     {
+        var map = MapController.Instance;
+
         while (mSpawnedCount < mSpawnAmount)
         {
             Vector3 position = map.GetRandomTilePosition();

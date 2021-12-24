@@ -21,7 +21,6 @@ public class GameController : STController<GameController>
     public GameState PrevState { get; private set; }
     public int Stage { get; private set; }
     public float GameTime { get; private set; }
-    public MapController Map { get; set; }
 
     public BossEnemy Boss;
 
@@ -95,7 +94,9 @@ public class GameController : STController<GameController>
         Stage = 1;
         Boss = null;
 
-        PlayerController.Instance.Spawn(Map.PlayerSpawnPoint.position);
+        MapController.Instance.SetCurrentMap();
+
+        PlayerController.Instance.Spawn(MapController.Instance.Map.PlayerSpawnPoint.position);
 
         EnemyController.Instance.Init();
 
@@ -111,10 +112,10 @@ public class GameController : STController<GameController>
         Stage = 1;
         Boss = null;
 
-        Map.ResetMap();
+        MapController.Instance.ResetMap();
         EnemyController.Instance.ClearEnemies();
         PlayerController.Instance.Init();
-        PlayerController.Instance.Character.SetPosition(Map.PlayerSpawnPoint.position, Quaternion.identity);
+        PlayerController.Instance.Character.SetPosition(MapController.Instance.Map.PlayerSpawnPoint.position, Quaternion.identity);
         CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);
     }
 
