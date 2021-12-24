@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class DeadLine : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        var character = collision.gameObject.GetComponent<CombatCharacterBase>();
+        var character = other.gameObject.GetComponent<CombatCharacterBase>();
         if (character == null)
             return;
 
