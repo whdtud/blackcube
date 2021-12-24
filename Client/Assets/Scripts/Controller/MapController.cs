@@ -31,7 +31,7 @@ public class MapController : STController<MapController>, IGameStateListener
         LoadMapDataFromXml();
     }
 
-    public void SetCurrentMap()
+    public void OnStartGame()
     {
         Map = FindObjectOfType<Map>();
     }
@@ -65,6 +65,11 @@ public class MapController : STController<MapController>, IGameStateListener
     public Vector3 GetRandomTilePosition()
     {
         return Map.GetRandomTilePosition();
+    }
+
+    public Vector3 GetPlayerSpawnPoint()
+    {
+        return Map.PlayerSpawnPoint.position;
     }
 
     private void LoadMapDataFromXml()

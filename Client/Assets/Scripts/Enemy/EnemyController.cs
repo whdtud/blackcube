@@ -21,7 +21,7 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
         GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void Init()
+    public void OnStartGame()
     {
 
     }

@@ -17,21 +17,18 @@ public enum GameState
 
 public class GameController : STController<GameController>
 {
-    public GameState CurrentState { get; private set; }
-    public GameState PrevState { get; private set; }
     public int Stage { get; private set; }
     public float GameTime { get; private set; }
 
     public BossEnemy Boss;
 
+    public GameState CurrentState { get; private set; }
+    public GameState PrevState { get; private set; }
+
     public List<IGameStateListener> GameStateListeners = new List<IGameStateListener>();
 
     private const float STAGE_GOAL_TIME = 60f;
     private const float STAGE_READY_TIME_SPEED = 10f;
-
-    void Awake()
-    {
-    }
 
     void Update() 
     {
@@ -94,13 +91,10 @@ public class GameController : STController<GameController>
         Stage = 1;
         Boss = null;
 
-        MapController.Instance.SetCurrentMap();
-
-        PlayerController.Instance.Spawn(MapController.Instance.Map.PlayerSpawnPoint.position);
-
-        EnemyController.Instance.Init();
-
-        CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);
+        MapController.Instance.OnStartGame();
+        PlayerController.Instance.OnStartGame();
+        EnemyController.Instance.OnStartGame();
+        CameraController.Instance.OnStartGame();
 
         SceneSwitchManager.Instance.PushPage(UIPageKind.Page_BattleZone, null);
     }

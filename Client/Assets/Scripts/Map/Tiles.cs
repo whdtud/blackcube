@@ -8,7 +8,6 @@ public class Tiles : MonoBehaviour
 {
     private Tile[] mTiles;
 
-
     void Awake()
     {
         mTiles = GetComponentsInChildren<Tile>();

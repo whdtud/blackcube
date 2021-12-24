@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using System.Collections;
-
 public class PlayerData
 {
 	public int Level = 1;
@@ -68,6 +66,11 @@ public class PlayerController : STController<PlayerController>
 
 		Character.Init();
     }
+
+	public void OnStartGame()
+    {
+		Spawn(MapController.Instance.GetPlayerSpawnPoint());
+	}
 
     void Update()
     {
