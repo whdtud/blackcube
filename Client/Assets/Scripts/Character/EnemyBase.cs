@@ -205,6 +205,9 @@ public abstract class EnemyBase : CombatCharacterBase
     public virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Tile")
-            State = EnemyState.MOVE;
+        {
+            if (State == EnemyState.IDLE)
+                State = EnemyState.MOVE;
+        }
     }
 }
