@@ -11,7 +11,7 @@ public class CameraController : STController<CameraController>, IGameStateListen
         GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void OnStartGame()
+    public void Init()
     {
         BattleZoneCamera = FindObjectOfType<IsometricCamera>();
         BattleZoneCamera.ZoomValue = 1f;

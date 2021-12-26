@@ -1,25 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class SkillManager : MonoBehaviour
+public class SkillManager : STController<SkillManager>
 {
 	private Dictionary<string, SkillBase> mSkillMap = new Dictionary<string, SkillBase>();
 	private List<SkillBase> mSkillList = new List<SkillBase>();
 
 	public const int SKILL_DISPLAY_COUNT = 3;
 
-	public static SkillManager Instance { get; private set; }
-
 	void Awake()
-    {
-		if (Instance != null)
-			return;
-
-		Instance = this;
-    }
-
-	void Start()
 	{	
 		Sprite[] sprites = Resources.LoadAll<Sprite>(@"Sprites/ui_sheet");
 		

@@ -6,7 +6,12 @@ public class Map : MonoBehaviour
     public Transform PlayerSpawnPoint;
     public Transform BossSpawnPoint;
 
-    public void ChangeTiles(Color color)
+    public void Init()
+    {
+        ChangeTiles(Color.white);
+    }
+
+    private void ChangeTiles(Color color)
     {
         Tiles.ChangeTiles(color);
     }

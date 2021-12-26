@@ -21,9 +21,14 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
         GameController.Instance.GameStateListeners.Add(this);
     }
 
-    public void OnStartGame()
+    public void Init()
     {
+        foreach (var enemy in mEnemyList)
+        {
+            enemy.gameObject.SetActive(false);
+        }
 
+        mEnemyList.Clear();
     }
 
     public void OnChangeState(GameState prevState, GameState currentState)
@@ -41,16 +46,6 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
             StopCoroutine(Co_SpawnEnemiesCycle(gameController.Stage));
             gameController.Boss = SpawnBoss(MapController.Instance.Map.BossSpawnPoint.position);
         }
-    }
-
-    public void ClearEnemies()
-    {
-        foreach (var enemy in mEnemyList)
-        {
-            enemy.gameObject.SetActive(false);
-        }
-
-        mEnemyList.Clear();
     }
 
     public void OnEnemyDead(EnemyBase enemy)

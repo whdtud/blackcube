@@ -91,10 +91,10 @@ public class GameController : STController<GameController>
         Stage = 1;
         Boss = null;
 
-        MapController.Instance.OnStartGame();
-        PlayerController.Instance.OnStartGame();
-        EnemyController.Instance.OnStartGame();
-        CameraController.Instance.OnStartGame();
+        MapController.Instance.Init();
+        PlayerController.Instance.Init();
+        EnemyController.Instance.Init();
+        CameraController.Instance.Init();
 
         SceneSwitchManager.Instance.PushPage(UIPageKind.Page_BattleZone, null);
     }
@@ -106,11 +106,10 @@ public class GameController : STController<GameController>
         Stage = 1;
         Boss = null;
 
-        MapController.Instance.ResetMap();
-        EnemyController.Instance.ClearEnemies();
+        MapController.Instance.Init();
         PlayerController.Instance.Init();
-        PlayerController.Instance.Character.SetPosition(MapController.Instance.Map.PlayerSpawnPoint.position, Quaternion.identity);
-        CameraController.Instance.SetTarget(PlayerController.Instance.Character.Tm);
+        EnemyController.Instance.Init();
+        CameraController.Instance.Init();
     }
 
     public void ReturnToTitle()

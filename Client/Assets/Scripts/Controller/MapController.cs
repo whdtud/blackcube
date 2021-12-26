@@ -31,16 +31,12 @@ public class MapController : STController<MapController>, IGameStateListener
         LoadMapDataFromXml();
     }
 
-    public void OnStartGame()
+    public void Init()
     {
         Map = FindObjectOfType<Map>();
-    }
+        Map.Init();
 
-    public void ResetMap()
-    {
         mCurrentMapIndex = -1;
-
-        Map.ChangeTiles(Color.white);
     }
 
     public void OnChangeState(GameState prevState, GameState currentState)

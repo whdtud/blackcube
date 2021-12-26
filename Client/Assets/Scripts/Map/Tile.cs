@@ -137,8 +137,12 @@ public class Tile : MonoBehaviour
     }
 	
 	public void OnCollisionExit(Collision collision)
-	{
-		PlayerController.Instance.Character.BuffMoveSpeed = 1f;
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            PlayerController.Instance.Character.BuffMoveSpeed = 1f;
+            return;
+        }
 
         if (mDestColor == Defines.TILE_WHITE_BLUE ||
             mDestColor == Defines.TILE_WHITE_PURPLE)
