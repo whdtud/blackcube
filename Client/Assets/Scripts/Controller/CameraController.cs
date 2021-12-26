@@ -22,9 +22,14 @@ public class CameraController : STController<CameraController>, IGameStateListen
     public void OnChangeState(GameState prevState, GameState currentState)
     {
         if (currentState == GameState.READY)
+        {
             BattleZoneCamera.ZoomValue = 1f;
+        }
         else if (currentState == GameState.OVER)
+        {
             BattleZoneCamera.ZoomValue = 0.3f;
+            BattleZoneCamera.SetTarget(null);
+        }
     }
 
     public void SetTarget(Transform tm)
