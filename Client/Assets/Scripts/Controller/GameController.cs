@@ -19,9 +19,6 @@ public class GameController : STController<GameController>
 {
     public int Stage { get; private set; }
     public float GameTime { get; private set; }
-
-    public BossEnemy Boss;
-
     public GameState CurrentState { get; private set; }
     public GameState PrevState { get; private set; }
 
@@ -89,7 +86,6 @@ public class GameController : STController<GameController>
         ChangeState(GameState.READY);
         GameTime = 0f;
         Stage = 1;
-        Boss = null;
 
         MapController.Instance.Init();
         PlayerController.Instance.Init();
@@ -104,7 +100,6 @@ public class GameController : STController<GameController>
         ChangeState(GameState.READY);
         GameTime = 0f;
         Stage = 1;
-        Boss = null;
 
         MapController.Instance.Init();
         PlayerController.Instance.Init();

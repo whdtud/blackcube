@@ -8,7 +8,7 @@ public class UIBossHp : MonoBehaviour
 
     void Update()
     {
-        HpSlider.value = GameController.Instance.Boss.HpPercent;
+        HpSlider.value = EnemyController.Instance.Boss.HpPercent;
 
         HpHpSliderBG.value = Mathf.Lerp(HpHpSliderBG.value, HpHpSliderBG.value, 0.05f);
     }

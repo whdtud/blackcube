@@ -5,13 +5,15 @@ using System.Collections.Generic;
 
 public class EnemyController : STController<EnemyController>, IGameStateListener
 {
+    private List<EnemyBase> mEnemyList = new List<EnemyBase>();
+    public BossEnemy Boss { get; private set; }
+
+    private Coroutine mSpawnEnemiesCoroutine;
+
     public float SpawnIntervalTime = 0.1f;
 
-    private int mSpawnedCount;
-    private int mSpawnAmount;
-    private int mEnemyCount;
-
-    private List<EnemyBase> mEnemyList = new List<EnemyBase>();
+    private int mLimitSpawnedCount;
+    public int CurrentEnemyCount { get { return mEnemyList.Count; } }
 
     private const int DEFAULT_SPAWN_AMOUNT = 5;
     private const int SPAWN_HEIGHT = 3;
@@ -23,72 +25,66 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
 
     public void Init()
     {
+        Boss = null;
+        mSpawnEnemiesCoroutine = null;
+
         foreach (var enemy in mEnemyList)
         {
             enemy.gameObject.SetActive(false);
         }
-
         mEnemyList.Clear();
+
+        SoftInit();
+    }
+
+    private void SoftInit()
+    {
+        mLimitSpawnedCount = DEFAULT_SPAWN_AMOUNT;
     }
 
     public void OnChangeState(GameState prevState, GameState currentState)
     {
-        var gameController = GameController.Instance;
-
         if (currentState == GameState.PLAY)
         {
-            mEnemyCount = 0;
-            mSpawnedCount = 0;
-            mSpawnAmount = DEFAULT_SPAWN_AMOUNT;
+            SoftInit();
+            mSpawnEnemiesCoroutine = StartCoroutine(Co_SpawnEnemies(GameController.Instance.Stage));
         }
         else if (currentState == GameState.BOSS)
         {
-            StopCoroutine(Co_SpawnEnemiesCycle(gameController.Stage));
-            gameController.Boss = SpawnBoss(MapController.Instance.Map.BossSpawnPoint.position);
+            if (mSpawnEnemiesCoroutine != null)
+                StopCoroutine(mSpawnEnemiesCoroutine);
+
+            SpawnBoss();
         }
     }
 
     public void OnEnemyDead(EnemyBase enemy)
     {
-        mEnemyCount -= 1;
-
         mEnemyList.Remove(enemy);
-    }
 
-    void Update()
-    {
-        var gameController = GameController.Instance;
-
-        if (gameController.CurrentState != GameState.PLAY)
+        if (GameController.Instance.CurrentState == GameState.BOSS)
             return;
 
-        if (mEnemyCount <= 0)
-            StartCoroutine(Co_SpawnEnemiesCycle(gameController.Stage));
+        if (CurrentEnemyCount <= 0)
+            mSpawnEnemiesCoroutine = StartCoroutine(Co_SpawnEnemies(GameController.Instance.Stage));
     }
 
-    public IEnumerator Co_SpawnEnemiesCycle(int stage)
+    private IEnumerator Co_SpawnEnemies(int stage)
     {
         var map = MapController.Instance;
 
-        while (mSpawnedCount < mSpawnAmount)
+        while (CurrentEnemyCount < mLimitSpawnedCount)
         {
             Vector3 position = map.GetRandomTilePosition();
             position.y += SPAWN_HEIGHT;
 
-            SpawnEnemy(stage, position);
+            string enemyName = EnemySpawnHelper.GetEnemyNameFromStage(stage, CurrentEnemyCount, mLimitSpawnedCount);
+            SpawnEnemy(enemyName, position);
 
             yield return new WaitForSeconds(SpawnIntervalTime);
         }
 
-        mSpawnedCount = 0;
-        mSpawnAmount += DEFAULT_SPAWN_AMOUNT / 2;
-    }
-
-    private void SpawnEnemy(int stage, Vector3 position)
-    {
-        string name = CalcEnemyNameFromStage(stage);
-
-        SpawnEnemy(name, position);
+        mLimitSpawnedCount += DEFAULT_SPAWN_AMOUNT / 2;
     }
 
     public EnemyBase SpawnEnemy(string name, Vector3 position)
@@ -97,87 +93,17 @@ public class EnemyController : STController<EnemyController>, IGameStateListener
         enemy.Init();
         enemy.SetPosition(position, Quaternion.identity);
 
-        mEnemyCount++;
-        mSpawnedCount++;
-
         mEnemyList.Add(enemy);
 
         return enemy;
     }
 
-    private string CalcEnemyNameFromStage(int stage)
+    private void SpawnBoss()
     {
-        string name;
-
-        switch (stage)
-        {
-            case 1:
-                name = Defines.ENEMY_BASIC_NAME;
-                break;
-            case 2:
-                name = Defines.ENEMY_BOMB_NAME;
-                break;
-            case 3:
-                name = Defines.ENEMY_GIANT_NAME;
-                break;
-            case 4:
-                if (mSpawnedCount < mSpawnAmount * 0.1f)
-                    name = Defines.ENEMY_SHOOT_NAME;
-                else
-                    name = Defines.ENEMY_BASIC_NAME;
-                break;
-            case 5:
-                if (mSpawnedCount < mSpawnAmount * 0.1f)
-                    name = Defines.ENEMY_SHOOT_NAME;
-                else if (mSpawnedCount < mSpawnAmount * 0.7f)
-                    name = Defines.ENEMY_BASIC_NAME;
-                else
-                    name = Defines.ENEMY_BOMB_NAME;
-                break;
-            case 6:
-                if (mSpawnedCount < mSpawnAmount * 0.1f)
-                    name = Defines.ENEMY_SHOOT_NAME;
-                else if (mSpawnedCount < mSpawnAmount * 0.7f)
-                    name = Defines.ENEMY_BASIC_NAME;
-                else
-                    name = Defines.ENEMY_GIANT_NAME;
-                break;
-            case 7:
-                if (mSpawnedCount < mSpawnAmount * 0.1f)
-                    name = Defines.ENEMY_SHOOT_NAME;
-                else if (mSpawnedCount < mSpawnAmount * 0.5f)
-                    name = Defines.ENEMY_BASIC_NAME;
-                else if (mSpawnedCount < mSpawnAmount * 0.8f)
-                    name = Defines.ENEMY_BOMB_NAME;
-                else
-                    name = Defines.ENEMY_GIANT_NAME;
-                break;
-            case 8:
-                if (mSpawnedCount < mSpawnAmount * 0.1f)
-                    name = Defines.ENEMY_SHOOT_NAME;
-                else if (mSpawnedCount < mSpawnAmount * 0.4f)
-                    name = Defines.ENEMY_BASIC_NAME;
-                else if (mSpawnedCount < mSpawnAmount * 0.7f)
-                    name = Defines.ENEMY_BOMB_NAME;
-                else
-                    name = Defines.ENEMY_GIANT_NAME;
-                break;
-            default:
-                name = Defines.ENEMY_BASIC_NAME;
-                break;
-        }
-
-        return name;
-    }
-
-    private BossEnemy SpawnBoss(Vector3 position)
-    {
-        Vector3 spawnPosition = position;
-
         var boss = ResourceManager.Instance.SpawnEnemy(Defines.ENEMY_BOSS_NAME) as BossEnemy;
         boss.Init();
-        boss.SetPosition(spawnPosition, Quaternion.identity);
+        boss.SetPosition(MapController.Instance.GetBossSpawnPoint(), Quaternion.identity);
 
-        return boss;
+        Boss = boss;
     }
 }

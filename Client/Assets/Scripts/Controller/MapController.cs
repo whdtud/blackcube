@@ -68,6 +68,11 @@ public class MapController : STController<MapController>, IGameStateListener
         return Map.PlayerSpawnPoint.position;
     }
 
+    public Vector3 GetBossSpawnPoint()
+    {
+        return Map.BossSpawnPoint.position;
+    }
+
     private void LoadMapDataFromXml()
     {
         mStrMapDic.Clear();
